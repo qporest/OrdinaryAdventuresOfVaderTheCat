@@ -12,16 +12,13 @@ class GameScene extends Scene {
   init(app){
     // Adding map
     this.map = new TiledFloor(app.sprites["floor"], this)
-    this.vader = new Player(app.sprites["Vader"], this, {row:0, col:1})
+    this.vader = new Player(app.sprites["Vader"], this, {row:0, col:0})
     this.stage.addChild(this.map.sprite)
     this.stage.addChild(this.vader.sprite)
+    this.gameObjects.push(this.vader)
     this.layers.push([this.vader])
     this.layers.push([this.map])
     console.log("GameScene")
-  }
-
-  update(dt) {
-    // console.log("Init was updated")
   }
 
   render() {

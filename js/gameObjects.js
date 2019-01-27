@@ -65,6 +65,7 @@ class TiledFloor extends PIXIGameObject {
 		while(queue.length>0){
 			let cur = queue.shift()
 			if(cur[cur.length-1].col==end.col && cur[cur.length-1].row == end.row){
+				cur.shift()
 				return cur
 			}
 			for(let neighbour of this.getNeighbourCoordinates(cur[cur.length-1])){
@@ -89,7 +90,6 @@ class TiledFloor extends PIXIGameObject {
 	}
 
 	generateHitArea(){
-		console.log("Polygon hit area")
 		return new PIXI.Polygon(
 			0, (this.sprite.height-this.heightOffset)/2 + this.heightOffset,
 			this.sprite.width/2, 0 + this.heightOffset,
@@ -101,6 +101,7 @@ class TiledFloor extends PIXIGameObject {
 	coordinatesForIndex({row, col}){
 		let x = (col - row) * this.WIDTH / 2 + this.sprite.width / 2
 		let y = (col + row) * this.HEIGHT / 2 + this.heightOffset
+		return {x, y}
 	}
 
 	getPosForCoordinates(coord){
@@ -110,11 +111,15 @@ class TiledFloor extends PIXIGameObject {
 		let col = Math.floor((coord.x / (this.WIDTH/2) + coord.y / (this.HEIGHT/2))/2)
 		if(row>=this.map.length) row = this.map.length-1
 		if(col>=this.map[0].length) col = this.map[0].length-1
-		console.log(row+" "+col)
 		return {row, col}
 	}
 	
 	processTouchEvent(evt, coord){
+		let pos = this.getPosForCoordinates(coord)
+		if(this.map[pos.row][pos.col]!=-1){
+			console.log("Moving player to:["+pos.row+","+pos.col+"]")
+			this.scene.vader.moveTo(pos)
+		}
 	}
 }
 
