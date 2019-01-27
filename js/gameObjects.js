@@ -98,7 +98,12 @@ class TiledFloor extends PIXIGameObject {
 		)
 	}
 
-	processTouchEvent(evt, coord){
+	coordinatesForIndex({row, col}){
+		let x = (col - row) * this.WIDTH / 2 + this.sprite.width / 2
+		let y = (col + row) * this.HEIGHT / 2 + this.heightOffset
+	}
+
+	getPosForCoordinates(coord){
 		coord.x -= this.sprite.width / 2
 		coord.y -= this.heightOffset
 		let row = Math.floor((coord.y / (this.HEIGHT/2) - coord.x / (this.WIDTH/2))/2)
@@ -106,11 +111,14 @@ class TiledFloor extends PIXIGameObject {
 		if(row>=this.map.length) row = this.map.length-1
 		if(col>=this.map[0].length) col = this.map[0].length-1
 		console.log(row+" "+col)
-		console.log(this.getPath({row:0,col:0},{row,col}))
+		return {row, col}
+	}
+	
+	processTouchEvent(evt, coord){
 	}
 }
 
-class Character extends PIXIGameObject {
+class NPC extends PIXIGameObject {
 	constructor(sprite, scene){
 		super(sprite)
 		this.scene = scene

@@ -5,15 +5,18 @@ class GameScene extends Scene {
   }) {
     super(obj)
     this.layers = []
-    this.ground = null
+    this.map = null
     this.characters = null
   }
 
   init(app){
-    // Adding ground
-    this.ground = new TiledFloor(app.sprites["floor"], this)
-    this.stage.addChild(this.ground.sprite)
-    this.layers.push([this.ground])
+    // Adding map
+    this.map = new TiledFloor(app.sprites["floor"], this)
+    this.vader = new Player(app.sprites["Vader"], this, {row:0, col:1})
+    this.stage.addChild(this.map.sprite)
+    this.stage.addChild(this.vader.sprite)
+    this.layers.push([this.vader])
+    this.layers.push([this.map])
     console.log("GameScene")
   }
 
