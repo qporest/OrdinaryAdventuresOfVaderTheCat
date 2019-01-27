@@ -2,12 +2,20 @@ class PIXIGameObject extends GameObject {
 	constructor(sprite){
 		super()
 		this.sprite = sprite
+		this.sprite.hitArea = this.generateHitArea()
+	}
+
+	generateHitArea(){
+		console.log("Rectangle hit area")
+		return new PIXI.Rectangle(0,0,this.sprite.width,this.sprite.height)
 	}
 
 	processEvt(evt){
 		if(evt.type=="touch"){
+			console.log("Checking touch hit box")
 			let localClick = this.sprite.toLocal({x: evt.x, y:evt.y})
 			let isHit = this.sprite.hitArea.contains(localClick.x, localClick.y)
+			console.log(isHit)
 			if(!isHit){ 
 				return false 
 			}
@@ -31,7 +39,7 @@ class TiledFloor extends PIXIGameObject {
 	/*
 	Tiled Floor is symmetrical, with walls around it. Only floor is clickable.
 	*/
-	constructor(sprite, scene, heightOffset=0){
+	constructor(sprite, scene){
 		super(sprite)
 		this.map = [
 			[0,0,0,0,0,0],
@@ -42,11 +50,10 @@ class TiledFloor extends PIXIGameObject {
 			[0,0,0,0,0,0]
 		]
 		this.scene = scene
-		this.heightOffset = heightOffset
-		// this.heightOffset = 189
-		this.sprite.hitArea = this.generateHitArea()
+		this.heightOffset = 189
 		this.WIDTH = 128
 		this.HEIGHT = 64
+		this.sprite.hitArea = this.generateHitArea()
 	}
 
 	getPath(start, end){
@@ -65,6 +72,7 @@ class TiledFloor extends PIXIGameObject {
 					let nxt = cur.slice()
 					nxt.push(neighbour)
 					queue.push(nxt)
+					this.searchMap[neighbour.row][neighbour.col] = 1
 				}
 			}
 		}
@@ -81,20 +89,34 @@ class TiledFloor extends PIXIGameObject {
 	}
 
 	generateHitArea(){
+		console.log("Polygon hit area")
 		return new PIXI.Polygon(
-			0, this.sprite.height/2 + this.heightOffset,
+			0, (this.sprite.height-this.heightOffset)/2 + this.heightOffset,
 			this.sprite.width/2, 0 + this.heightOffset,
-			this.sprite.width, this.sprite.height/2 + this.heightOffset,
-			this.sprite.width/2, this.sprite.height + this.heightOffset
+			this.sprite.width, (this.sprite.height-this.heightOffset)/2 + this.heightOffset,
+			this.sprite.width/2, (this.sprite.height-this.heightOffset) + this.heightOffset
 		)
 	}
 
 	processTouchEvent(evt, coord){
 		coord.x -= this.sprite.width / 2
 		coord.y -= this.heightOffset
-		console.log(coord.x+" "+coord.y)
 		let row = Math.floor((coord.y / (this.HEIGHT/2) - coord.x / (this.WIDTH/2))/2)
 		let col = Math.floor((coord.x / (this.WIDTH/2) + coord.y / (this.HEIGHT/2))/2)
+		if(row>=this.map.length) row = this.map.length-1
+		if(col>=this.map[0].length) col = this.map[0].length-1
 		console.log(row+" "+col)
+		console.log(this.getPath({row:0,col:0},{row,col}))
+	}
+}
+
+class Character extends PIXIGameObject {
+	constructor(sprite, scene){
+		super(sprite)
+		this.scene = scene
+	}
+
+	processTouchEvent(evt, coord){
+
 	}
 }
