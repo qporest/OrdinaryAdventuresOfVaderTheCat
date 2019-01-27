@@ -6,13 +6,14 @@ class Player extends PIXIGameObject {
 		this.updatePosition()
 		// this.character = character
 		this.actionQueue = []
-		this.velocity = 1
+		this.velocity = 0.6
 		this.currentActionData = null
 		this.status = null
 		this.currentAction = null
 		this.processAction = {
 			"move": this.moveUpdate.bind(this),
-			"interact": this.interactUpdate.bind(this)
+			"interact": this.interactUpdate.bind(this),
+			"moveTo": this.createPath.bind(this)
 		}
 	}
 
@@ -31,28 +32,24 @@ class Player extends PIXIGameObject {
 	}
 
 	moveToChar(char){
-		let path = this.scene.map.getPath(this.pos, pos)
-		if(path == -1){
-			console.log("Impossible to get to")
-			return
-		}
-		path.pop() // just need to get 1 away from the char
 		this.actionQueue.push({
-			"cmd": "move",
-			"path": path
+			"cmd": "moveTo",
+			"goal": char.interactionPoint
 		})
 		this.interactWith(char)
 	}
 
 	moveTo(pos){
 		let path = this.scene.map.getPath(this.pos, pos)
+		console.log("Path")
+		console.log(JSON.stringify(path))
 		if(path == -1){
 			console.log("Impossible to get to")
 			return
 		}
 		this.actionQueue.push({
-			"cmd": "move",
-			"path": path
+			"cmd": "moveTo",
+			"goal": pos
 		})
 	}
 
@@ -78,6 +75,11 @@ class Player extends PIXIGameObject {
 			console.log("Keeping action going")
 			this.processAction[this.currentAction["cmd"]](dt)
 		}
+	}
+
+	createPath(dt){
+		this.currentAction["cmd"] = "move"
+		this.currentAction["path"] = this.scene.map.getPath(this.pos, this.currentAction["goal"])
 	}
 
 	moveUpdate(dt){

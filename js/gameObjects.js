@@ -124,9 +124,11 @@ class TiledFloor extends PIXIGameObject {
 }
 
 class NPC extends PIXIGameObject {
-	constructor(sprite, scene){
+	constructor(sprite, scene, pos){
 		super(sprite)
 		this.scene = scene
+		this.pos = pos
+		this.interactionPoint = this.pos
 	}
 
 	processTouchEvent(evt, coord){
