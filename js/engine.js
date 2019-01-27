@@ -6,6 +6,10 @@ let last,
   step = 1 / 60,
   dt = 0
 
+function showLoaded(){
+  console.log("I'm loaded")
+}
+
 class Game {
 
   constructor(options = {}) {
@@ -17,6 +21,7 @@ class Game {
       window.msRequestAnimationFrame
     )
 
+    this.options = options
     this.sprites = {}
 
     this.scene = []
@@ -24,42 +29,26 @@ class Game {
 
     this.eventBuffer = []
 
-    this.DEFAULT_WIDTH = 640
-    this.DEFAULT_HEIGHT = 480
+    this.DEFAULT_WIDTH = 980
+    this.DEFAULT_HEIGHT = 640
     this.debug = false
 
     this.app = null
     this.stage = null
+    this.canvas = null
 
     this.setUpCanvas(options)
     this.loadSprites(options)
       // set up the keyboard listener
-    document.addEventListener('keyup', this.processEvt.bind(this))
-  }
-
-  initSpritePromise(src, name) {
-    let self = this
-    return new Promise((resolve, reject) => {
-      let img = new Image()
-      img.onload = () => {
-        if(!self.sprites[name]) self.sprites[name] = []
-        self.sprites[name].push(new Sprite(img, {
-          x: 0,
-          y: 0,
-          width: img.width,
-          height: img.height
-        }))
-        console.log("Resolved")
-        resolve()
-      }
-      img.onerror = reject
-      img.src = src
-    })
+    this.canvas.addEventListener('keyup', this.processEvt.bind(this))
+    this.canvas.addEventListener('mousedown', this.processClickEvt.bind(this))
+    this.canvas.addEventListener('touchstart', this.processTouchEvt.bind(this))
   }
 
   loadSprites(options){
-    console.log("I will load sprites here later")
-    this.postSpriteInit()
+    PIXI.loader
+      .add(options["sprites"])
+      .load(this.spritesLoaded.bind(this))
   }
 
   /**
@@ -80,13 +69,26 @@ class Game {
       })
     }
     this.canvas = this.app.view
+    this.app.renderer.backgroundColor = 0x061639;
+    this.stage = this.app.stage
+    this.stage.scale.set(1)
     document.body.appendChild(this.app.view)
   }
 
   /* Gets overridden. Called after the sprites are loaded.
   */
-  postSpriteInit(){
+  spritesLoaded(){
     console.log("Sprites loaded.")
+    for(let sprite_path of this.options["sprites"]){
+      console.log("Adding :"+this.options["sprite_mapping"][sprite_path])
+      this.sprites[this.options["sprite_mapping"][sprite_path]] =
+        new PIXI.Sprite(PIXI.loader.resources[sprite_path].texture) 
+    }
+    this.resourcesLoaded()
+  }
+
+  resourcesLoaded(){
+    console.log("Loaded all the resources.")
   }
 
   /* Changes game scene to a given, clears the stack.
@@ -98,12 +100,13 @@ class Game {
       console.log("Changing scene to " + scene.toString())
     }
     this.pushScene(this.scenes[scene])
-    this.currentScene.init()
+    this.currentScene.init(this)
   }
 
   pushScene(scene){
     console.log("Scene pushed")
     this.scene.push(scene)
+    this.stage.addChild(scene.stage)
     this.currentScene = this.scene[this.scene.length - 1]
     console.log("Changed current scene")
   }
@@ -111,6 +114,7 @@ class Game {
   popScene(){
     console.log("Scene popped")
     let latest = this.scene.pop()
+    this.stage.removeChild(latest.stage)
     this.currentScene = this.scene[this.scene.length - 1]
     return latest
   }
@@ -123,6 +127,22 @@ class Game {
 
   processEvt(evt) {
     this.eventBuffer.push(evt)
+  }
+
+  processClickEvt(evt) {
+    event.preventDefault()
+    console.log({x: event.clientX-this.canvas.offsetLeft,
+      y: event.clientY-this.canvas.offsetTop})
+    this.eventBuffer.push({type:"touch", x: event.clientX-this.canvas.offsetLeft,
+        y: event.clientY-this.canvas.offsetTop})
+  }
+
+  processTouchEvt(evt) {
+    event.preventDefault()
+    console.log({x: event.touches[0].clientX-this.canvas.offsetLeft,
+      y: event.touches[0].clientY-this.canvas.offsetTop})
+    this.eventBuffer.push({type:"touch", x: event.touches[0].clientX-this.canvas.offsetLeft,
+      y: event.touches[0].clientY-this.canvas.offsetTop})
   }
 
   /* The game loop.
@@ -170,8 +190,16 @@ class Scene {
     UI,
     gameObjects
   }) {
+    this.stage = new PIXI.Container()
+    this.stage.sortableChildren = true
     this.UI = UI
     this.gameObjects = gameObjects
+    for(let obj in this.UI){
+      this.stage.add(obj)
+    }
+    for(let obj in this.gameObjects){
+      this.stage.add(obj)
+    }
   }
 
   /**
@@ -187,7 +215,7 @@ class Scene {
      * @param {context2D} ctx - ctx to render on
      */
   render(ctx) {
-    console.log("We render stuff here")
+    console.log("Pixi renders the stage")
   }
 
   processEvt(evt) {

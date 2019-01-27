@@ -2,13 +2,14 @@ class VaderGame extends Game {
 	constructor(options={}){
 		super(options)
 		this.scenes = {
-			preload: new InitScene()
+			preload: new InitScene(),
+			game: new GameScene()
 		}
 		this.changeScene("preload")
 	}
 
-	postSpriteInit(){
+	resourcesLoaded(){
 		console.log("Game ready to start")
-		//this.changeScene("gane")
+		this.changeScene("game")
 	}
 }
