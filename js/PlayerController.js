@@ -19,13 +19,10 @@ class Player extends Character {
 			"cmd": "moveTo",
 			"goal": char.interactionPoint
 		})
-		this.interactWith(char)
 	}
 
 	moveTo(pos){
 		let path = this.scene.map.getPath(this.pos, pos)
-		console.log("Path")
-		console.log(JSON.stringify(path))
 		if(path == -1){
 			console.log("Impossible to get to")
 			return
@@ -49,13 +46,12 @@ class Player extends Character {
 
 	update(dt){
 		if(!this.currentAction){
+			this.currentActionData = null
 			if(this.actionQueue.length){
-				console.log("Starting new action")
 				this.currentAction = this.actionQueue.shift()
 				this.processAction[this.currentAction["cmd"]](dt)
 			}
 		} else {
-			console.log("Keeping action going")
 			this.processAction[this.currentAction["cmd"]](dt)
 		}
 	}
@@ -67,10 +63,11 @@ class Player extends Character {
 
 	moveUpdate(dt){
 		if(!this.status){
-			console.log("No status")
 			this.status = true
-			if(!this.currentAction["path"].length){
+			if(!this.currentAction["path"].length){ // we arrived
 				this.currentAction = null
+				this.currentActionData = null
+				this.status = null
 				return
 			}
 			let nextPos = this.currentAction["path"].shift()
@@ -95,6 +92,18 @@ class Player extends Character {
 	}
 
 	interactUpdate(dt){
-		console.log("Gotta start the interaction here")
+		if(!this.currentActionData){	
+			this.currentActionData = this.scene.scriptSystem.getDialogueFor(this.currentAction["character"])
+		}
+		console.log("Interact update")
+		let monologue = this.currentActionData.shift()
+		this.scene.setDialogue({
+			character: monologue.character,
+			text: monologue.text
+		})
+		if(this.currentActionData.length == 0){
+			this.currentAction = null
+			this.currentActionData = null
+		}
 	}
 }

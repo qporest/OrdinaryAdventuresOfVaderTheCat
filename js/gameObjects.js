@@ -149,10 +149,11 @@ class Character extends PIXIGameObject {
 
 class NPC extends Character {
 	constructor({
-		sprite, scene, pos, interactionPoint
+		sprite, scene, pos, interactionPoint, name
 	}){
 		super(sprite, scene, pos)
 		this.interactionPoint = interactionPoint
+		this.name = name
 	}
 
 	processTouchEvent(evt, coord){

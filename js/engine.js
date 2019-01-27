@@ -214,7 +214,6 @@ class Scene {
      * @param {context2D} ctx - ctx to render on
      */
   render(ctx) {
-    console.log("Pixi renders the stage")
   }
 
   processEvt(evt) {
