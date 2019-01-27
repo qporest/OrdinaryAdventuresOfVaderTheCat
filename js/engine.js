@@ -226,7 +226,7 @@ class Scene {
     }
   }
 
-  init() {
+  init(app) {
     console.log("Initializing scene")
   }
 }

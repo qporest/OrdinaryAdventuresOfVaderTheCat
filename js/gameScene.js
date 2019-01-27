@@ -13,6 +13,10 @@ class GameScene extends Scene {
   init(app){
     // Adding map
     this.map = new TiledFloor(app.sprites["floor"], this)
+    this.actual_stage = this.stage
+    this.stage = new PIXI.Container()
+    this.actual_stage.addChild(this.stage)
+    console.log(app)
     this.stage.addChild(this.map.sprite)
     this.gameObjects.push(this.map)
     // Adding player
@@ -34,6 +38,10 @@ class GameScene extends Scene {
     // Defining layers
     this.layers.push([this.vader, this.characters["Jessica"]])
     this.layers.push([this.map])
+
+    this.stage.x = app.canvas.width/2 - this.stage.width/2
+    this.stage.y = app.canvas.height/2 - this.stage.height/2
+    
     console.log("GameScene")
   }
 
