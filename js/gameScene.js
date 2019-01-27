@@ -40,14 +40,14 @@ class GameScene extends Scene {
     }
 
     this.characters["Vader"] = this.vader
+    this.addEnvironment()
     // Defining layers
-    this.layers.push([this.vader, this.characters["Jessica"]])
+    this.layers.push([this.vader, this.characters["Jessica"], this.jukebox])
     this.layers.push([this.map])
 
     this.stage.x = app.canvas.width/2 - this.stage.width/2
     this.stage.y = app.canvas.height/2 - this.stage.height/2
 
-    this.addEnvironment()
 
     this.dialogueScene.init(app)
     
@@ -73,15 +73,15 @@ class GameScene extends Scene {
     )
     this.stage.addChild(jessicaTable.sprite)
 
-    this.jukebox = new Character(
-      this.app.sprites["Jukebox_Incomplete"],
-      this,
-      {row: 1, col:0}
-    )
+    this.jukebox = new NPC({
+      sprite: this.app.sprites["Jukebox_Incomplete"],
+      scene: this,
+      pos: {row: 1, col:0},
+      name: "Jukebox",
+      interactionPoint: {row:1, col:1}
+    })
     this.jukebox.sprite.x = 267
     this.jukebox.sprite.y = 156
-    console.log("Jukebox")
-    console.log(this.jukebox)
     this.stage.addChild(this.jukebox.sprite)
 
     let bar = new Character(
@@ -92,7 +92,6 @@ class GameScene extends Scene {
     bar.sprite.zIndex = 4
     bar.sprite.x += 3
     bar.sprite.y -= 5
-
     this.stage.addChild(bar.sprite)
 
     this.lamps = this.app.sprites["Lamps"]

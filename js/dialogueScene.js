@@ -8,16 +8,7 @@ class DialogueScene extends Scene {
     this.text = ""
     this.sprite = null
     this.textObject = null
-    this.textStyle = new PIXI.TextStyle({
-      fontFamily: "Arial",
-      fontSize: 24,
-      fill: "#4CC1EE",
-      stroke: "black",
-      strokeThickness: 3,
-      wordWrap: true,
-      wordWrapWidth: 400
-    })
-    this.WIDTH = 500
+    this.WIDTH = 600
     this.HEIGHT = 250
   }
   init(app){
@@ -40,14 +31,22 @@ class DialogueScene extends Scene {
     //set icon
     if(icon){
       this.sprite = icon
-      this.sprite.x = 50
+      this.sprite.x = 25
       this.sprite.width = 50
-      this.sprite.y = 50
-      this.sprite.y = 50
+      this.sprite.y = this.HEIGHT/2 - this.sprite.height/2
       this.dialogue.addChild(this.sprite)
     }
-    this.textObject = new PIXI.Text(text, this.textStyle)
-    this.textObject.x = 75
+    let textStyle = new PIXI.TextStyle({
+      fontFamily: "arcade",
+      fontSize: 20,
+      fill: "#DDDCD6",
+      stroke: "black",
+      strokeThickness: 0,
+      wordWrap: true,
+      wordWrapWidth: 400
+    })
+    this.textObject = new PIXI.Text(text, textStyle)
+    this.textObject.x = 175
     this.textObject.y = this.HEIGHT/2 - this.textObject.height/2
     this.dialogue.addChild(this.textObject)
   }

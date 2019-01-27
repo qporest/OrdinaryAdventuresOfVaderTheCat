@@ -33,7 +33,8 @@ class ScriptSystem {
 	constructor(){
 		this.events = {
 			"met_jessica": false,
-			"jukebox_checking": false,
+			"talked_to_brody": false,
+			"jukebox_checked": false,
 			"finish": false
 		}
 		this.currentDialogue = {
@@ -42,7 +43,8 @@ class ScriptSystem {
 			"Brody": 0,
 			"Bill": 0,
 			"Vader": 0,
-			"Ylvis": 0
+			"Ylvis": 0,
+			"Jukebox": 0
 		}
 		this.dialogue = {}
 		//-------------------------------------------------
@@ -92,7 +94,47 @@ class ScriptSystem {
 			},
 			1: {
 				exchange: [
-					{character: "Vader", "text": "I've got nothing to ask him at the moment."}
+					{character: "Vader", "text": "I've got nothing to ask her at the moment."}
+				],
+				nextIf: {
+					event: "finish",
+					value: true,
+					next: 2
+				}
+			}
+		}
+		//--------------------------------------------------
+		//Jukebox
+		this.dialogue["Jukebox"] = {
+			0: {
+				exchange: [
+					{character: "Vader", text: "First, I would like to grab a drink."}
+				],
+				nextIf: {
+					"event": "talked_to_brody",
+					"value": true,
+					"next": 1
+				}
+			},
+			1: {
+				exchange: [
+					{character: "Vader", text: "Hum pum pum, some good music will liven this place up."},
+					{character: "Jessica", text: "Do you mind putting on a song I could dance to? What's the name of that popular one, that's played everywhere right now?"},
+					{character: "Vader", text: "I know exactly which one you mean..."},
+					{character: "Vader", text: "It's not here!"},
+					{character: "Jessica", text: "It can't be! I was just dancing to it here yesterday!"},
+					{character: "Narrator", text: "You are wondering if she stayed here since yesterday. In fact you have never not seen her here."},
+					{character: "Vader", text: "I'll ask Brody about it"},
+				],
+				next: 2,
+				triggeredEvent: {
+					"event": "jukebox_checked",
+					"value": true
+				}
+			},
+			2: {
+				exchange: [
+					{character: "Vader", "text": "I've got to find where the song is."}
 				],
 				nextIf: {
 					event: "finish",

@@ -4,15 +4,30 @@ class InitScene extends Scene {
     gameObjects: []
   }) {
     super(obj)
-    
   }
 
-  init(){
-    console.log("Init scene")
+  init(app){
+    this.HEIGHT = 400
+    this.WIDTH = 400
+    this.stage.x = app.canvas.width/2 - this.WIDTH/2
+    this.stage.y = app.canvas.height/2 - this.HEIGHT/2
+    let textStyle = new PIXI.TextStyle({
+      fontFamily: "Helvetica",
+      fontSize: 36,
+      fill: "#DDDCD6",
+      stroke: "black",
+      strokeThickness: 0,
+      wordWrap: true,
+      wordWrapWidth: 400
+    })
+    this.textObject = new PIXI.Text("Loading", textStyle)
+    this.textObject.x = this.WIDTH/2 - this.textObject.width/2
+    this.textObject.y = this.HEIGHT/2 - this.textObject.height/2
+    this.stage.addChild(this.textObject)
   }
 
   update(dt) {
-    // console.log("Init was updated")
+    this.textObject.text += "."
   }
 
   render() {

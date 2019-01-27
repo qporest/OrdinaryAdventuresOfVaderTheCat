@@ -87,7 +87,10 @@ class Game {
     this.sprites["TestAnimation"] = new PIXI.extras.AnimatedSprite(
       PIXI.loader.resources["./img/animations/test.json"].spritesheet.animations["char"]
     )
-    this.resourcesLoaded()
+    let font = new FontFaceObserver('arcade', {
+    })
+
+    font.load().then(this.resourcesLoaded.bind(this))
   }
 
   resourcesLoaded(){
@@ -98,7 +101,9 @@ class Game {
    * @param {Number} scene - scene to change to
    */
   changeScene(scene) {
-    this.scene.length = 0
+    while(this.scene.length){
+      this.popScene()
+    }
     if (this.debug > 2) {
       console.log("Changing scene to " + scene.toString())
     }
@@ -109,6 +114,7 @@ class Game {
   pushScene(scene){
     console.log("Scene pushed")
     this.scene.push(scene)
+    scene.stage.visible = true
     this.stage.addChild(scene.stage)
     this.currentScene = this.scene[this.scene.length - 1]
     console.log("Changed current scene")
@@ -118,6 +124,7 @@ class Game {
     console.log("Scene popped")
     let latest = this.scene.pop()
     this.stage.removeChild(latest.stage)
+    latest.stage.visible = false
     this.currentScene = this.scene[this.scene.length - 1]
     return latest
   }
