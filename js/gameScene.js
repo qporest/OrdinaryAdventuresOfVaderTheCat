@@ -72,7 +72,18 @@ class GameScene extends Scene {
       {row: 3, col:3}
     )
     this.stage.addChild(jessicaTable.sprite)
-    
+
+    this.jukebox = new Character(
+      this.app.sprites["Jukebox_Incomplete"],
+      this,
+      {row: 1, col:0}
+    )
+    this.jukebox.sprite.x = 267
+    this.jukebox.sprite.y = 156
+    console.log("Jukebox")
+    console.log(this.jukebox)
+    this.stage.addChild(this.jukebox.sprite)
+
     let bar = new Character(
       this.app.sprites["Bar"],
       this,

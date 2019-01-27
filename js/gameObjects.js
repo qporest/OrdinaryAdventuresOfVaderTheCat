@@ -44,10 +44,10 @@ class TiledFloor extends PIXIGameObject {
 		this.map = [
 			[1,0,1,1,1,1],
 			[1,0,0,0,1,1],
-			[1,0,0,0,0,1],
+			[0,0,0,0,0,1],
 			[1,1,0,1,0,0],
 			[1,1,0,1,0,1],
-			[1,1,0,0,0,0]
+			[1,1,0,0,0,1]
 		]
 		this.scene = scene
 		this.heightOffset = 189
