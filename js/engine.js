@@ -71,7 +71,6 @@ class Game {
     this.canvas = this.app.view
     this.app.renderer.backgroundColor = 0x061639;
     this.stage = this.app.stage
-    this.stage.scale.set(1)
     document.body.appendChild(this.app.view)
   }
 

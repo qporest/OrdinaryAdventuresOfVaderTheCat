@@ -1,9 +1,6 @@
-class Player extends PIXIGameObject {
+class Player extends Character {
 	constructor(sprite, scene, pos){
-		super(sprite)
-		this.scene = scene
-		this.pos = pos
-		this.updatePosition()
+		super(sprite, scene, pos)
 		// this.character = character
 		this.actionQueue = []
 		this.velocity = 0.6
@@ -15,20 +12,6 @@ class Player extends PIXIGameObject {
 			"interact": this.interactUpdate.bind(this),
 			"moveTo": this.createPath.bind(this)
 		}
-	}
-
-	updatePosition(){
-		this.coordinates = this.adjustCoordinates(this.scene.map.coordinatesForIndex(this.pos))
-		this.sprite.x = this.coordinates.x
-		this.sprite.y = this.coordinates.y
-		this.sprite.zindex = this.pos.col
-	}
-
-	adjustCoordinates(pos){
-		console.log(pos)
-		pos.x -= this.sprite.width/2
-		pos.y += this.scene.map.HEIGHT/2 - this.sprite.height
-		return {x: pos.x, y:pos.y}
 	}
 
 	moveToChar(char){

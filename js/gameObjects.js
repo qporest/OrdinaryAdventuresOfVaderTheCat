@@ -42,11 +42,11 @@ class TiledFloor extends PIXIGameObject {
 	constructor(sprite, scene){
 		super(sprite)
 		this.map = [
+			[0,0,0,1,1,1],
+			[0,0,0,0,1,1],
+			[0,0,0,0,0,1],
 			[0,0,0,0,0,0],
-			[0,0,0,0,0,0],
-			[0,0,0,0,0,0],
-			[0,0,0,0,0,0],
-			[0,0,0,0,0,0],
+			[0,0,0,1,0,0],
 			[0,0,0,0,0,0]
 		]
 		this.scene = scene
@@ -54,12 +54,12 @@ class TiledFloor extends PIXIGameObject {
 		this.WIDTH = 128
 		this.HEIGHT = 64
 		this.sprite.hitArea = this.generateHitArea()
+		this.sprite.zIndex = 0
 	}
 
 	getPath(start, end){
 		this.searchMap = JSON.parse(JSON.stringify(this.map))
 		this.searchMap[start.row][start.col] = 1
-		this.searchMap[end.row][end.col] = 0
 		let queue = [[start]]
 		let found = false
 		while(queue.length>0){
@@ -123,15 +123,40 @@ class TiledFloor extends PIXIGameObject {
 	}
 }
 
-class NPC extends PIXIGameObject {
+class Character extends PIXIGameObject {
 	constructor(sprite, scene, pos){
 		super(sprite)
 		this.scene = scene
 		this.pos = pos
-		this.interactionPoint = this.pos
+		this.updatePosition()
+	}
+
+	updatePosition(){
+		this.coordinates = this.adjustCoordinates(this.scene.map.coordinatesForIndex(this.pos))
+		this.sprite.x = this.coordinates.x
+		this.sprite.y = this.coordinates.y
+		this.sprite.zIndex = this.pos.col + this.pos.row
+		game.currentScene.stage.children.sort((itemA, itemB) => itemA.zIndex - itemB.zIndex)
+	}
+
+	adjustCoordinates(pos){
+		console.log(pos)
+		pos.x -= this.sprite.width/2
+		pos.y += this.scene.map.HEIGHT/2 - this.sprite.height
+		return {x: pos.x, y:pos.y}
+	}
+}
+
+class NPC extends Character {
+	constructor({
+		sprite, scene, pos, interactionPoint
+	}){
+		super(sprite, scene, pos)
+		this.interactionPoint = interactionPoint
 	}
 
 	processTouchEvent(evt, coord){
-
+		this.scene.vader.moveToChar(this)
+		this.scene.vader.interactWith(this)
 	}
 }
