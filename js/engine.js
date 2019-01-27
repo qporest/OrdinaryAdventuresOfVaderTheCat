@@ -48,6 +48,7 @@ class Game {
   loadSprites(options){
     PIXI.loader
       .add(options["sprites"])
+      .add("./img/animations/test.json")
       .load(this.spritesLoaded.bind(this))
   }
 
@@ -83,6 +84,9 @@ class Game {
       this.sprites[this.options["sprite_mapping"][sprite_path]] =
         new PIXI.Sprite(PIXI.loader.resources[sprite_path].texture) 
     }
+    this.sprites["TestAnimation"] = new PIXI.extras.AnimatedSprite(
+      PIXI.loader.resources["./img/animations/test.json"].spritesheet.animations["char"]
+    )
     this.resourcesLoaded()
   }
 

@@ -42,12 +42,12 @@ class TiledFloor extends PIXIGameObject {
 	constructor(sprite, scene){
 		super(sprite)
 		this.map = [
-			[0,0,0,1,1,1],
-			[0,0,0,0,1,1],
-			[0,0,0,0,0,1],
-			[0,0,0,0,0,0],
-			[0,0,0,1,0,0],
-			[0,0,0,0,0,0]
+			[1,0,1,1,1,1],
+			[1,0,0,0,1,1],
+			[1,0,0,0,0,1],
+			[1,1,0,1,0,0],
+			[1,1,0,1,0,1],
+			[1,1,0,0,0,0]
 		]
 		this.scene = scene
 		this.heightOffset = 189
@@ -136,7 +136,12 @@ class Character extends PIXIGameObject {
 		this.sprite.x = this.coordinates.x
 		this.sprite.y = this.coordinates.y
 		this.sprite.zIndex = this.pos.col + this.pos.row
+		this.sortZIndex()
+	}
+
+	sortZIndex(){
 		game.currentScene.stage.children.sort((itemA, itemB) => itemA.zIndex - itemB.zIndex)
+
 	}
 
 	adjustCoordinates(pos){

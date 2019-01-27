@@ -1,0 +1,40 @@
+{ "frames": {
+   "WALK CYCLE BLANK 0.aseprite": {
+    "frame": { "x": 2, "y": 2, "w": 64, "h": 79 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 79 },
+    "sourceSize": { "w": 64, "h": 79 },
+    "duration": 100
+   },
+   "WALK CYCLE BLANK 1.aseprite": {
+    "frame": { "x": 66, "y": 2, "w": 64, "h": 79 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 79 },
+    "sourceSize": { "w": 64, "h": 79 },
+    "duration": 100
+   },
+   "WALK CYCLE BLANK 2.aseprite": {
+    "frame": { "x": 130, "y": 2, "w": 64, "h": 79 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 64, "h": 79 },
+    "sourceSize": { "w": 64, "h": 79 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.1.6-dev",
+  "image": "WALK CYCLE BLANK.png",
+  "format": "RGBA8888",
+  "size": { "w": 196, "h": 83 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
+  ]
+ }
+}

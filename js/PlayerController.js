@@ -79,6 +79,8 @@ class Player extends Character {
 			}
 			this.currentActionData.incrementX = (this.currentActionData.end.x-this.currentActionData.start.x)/this.velocity
 			this.currentActionData.incrementY = (this.currentActionData.end.y-this.currentActionData.start.y)/this.velocity
+			this.sprite.zIndex = nextPos.row+nextPos.col
+			this.sortZIndex()
 		} else {
 			this.currentActionData.timeLeft -= dt
 			this.sprite.x += dt * this.currentActionData.incrementX

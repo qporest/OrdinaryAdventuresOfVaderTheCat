@@ -46,6 +46,9 @@ class GameScene extends Scene {
 
     this.stage.x = app.canvas.width/2 - this.stage.width/2
     this.stage.y = app.canvas.height/2 - this.stage.height/2
+
+    this.addEnvironment()
+
     this.dialogueScene.init(app)
     
     console.log("GameScene")
@@ -53,6 +56,37 @@ class GameScene extends Scene {
 
   render() {
     // console.log("I was rendered")
+  }
+
+  addEnvironment(){
+    let rupertTable = new Character(
+      this.app.sprites["RupertTable"],
+      this,
+      {row: 4, col:5}
+    )
+    this.stage.addChild(rupertTable.sprite)
+
+    let jessicaTable = new Character(
+      this.app.sprites["JessicaTable"],
+      this,
+      {row: 3, col:3}
+    )
+    this.stage.addChild(jessicaTable.sprite)
+    
+    let bar = new Character(
+      this.app.sprites["Bar"],
+      this,
+      {row: 5, col:2}
+    )
+    bar.sprite.zIndex = 4
+    bar.sprite.x += 3
+    bar.sprite.y -= 5
+
+    this.stage.addChild(bar.sprite)
+
+    this.lamps = this.app.sprites["Lamps"]
+    this.lamps.zIndex = 4+5
+    this.stage.addChild(this.lamps)
   }
 
   processEvt(evt) {
