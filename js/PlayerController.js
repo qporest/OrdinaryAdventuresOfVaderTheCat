@@ -150,6 +150,11 @@ class Player extends Character {
 	interactUpdate(dt){
 		if(!this.currentActionData){	
 			this.currentActionData = this.scene.scriptSystem.getDialogueFor(this.currentAction["character"])
+			if(this.currentActionData === false){
+				this.currentAction = null
+				this.currentActionData = null
+				return
+			}
 		}
 		console.log("Interact update")
 		let monologue = this.currentActionData.shift()

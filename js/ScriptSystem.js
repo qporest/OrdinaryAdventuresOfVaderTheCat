@@ -14,7 +14,6 @@ class ScriptSystem {
 			}
 		}
 		let exchange = currentDialogue["exchange"]
-		console.log(exchange)
 		if("nextIf" in currentDialogue === false){
 			this.currentDialogue[name] = currentDialogue["next"]
 		}
@@ -30,6 +29,9 @@ class ScriptSystem {
 	completeThreshold(name){
 		if(name in this.events){
 			this.events[name] = true
+			if(name in this.eventListeners){
+				this.eventListeners[name]()
+			}
 		}
 	}
 
@@ -39,7 +41,10 @@ class ScriptSystem {
 			"met_jessica": false,
 			"talked_to_brody": false,
 			"jukebox_checked": false,
-			"finish": false
+			"finish": false,
+			"blame_jessica": false,
+			"blame_bill": false,
+			"blame_ylvis": false
 		}
 		this.currentDialogue = {
 			"Jessica": 0,
@@ -53,7 +58,22 @@ class ScriptSystem {
 
 		this.eventListeners = {
 			"jukebox_checked": ()=>{
+				this.scene.vader.interactWith(this.scene.jukebox)
+			},
+			"learn_missing_vinyl": ()=>{
 				this.scene.setMusic("music/02_Mystery Song.mp3")
+			},
+			"check_ruperts_bag": ()=>{
+
+			},
+			"blame_jessica": ()=>{
+
+			},
+			"blame_bill": ()=>{
+
+			},
+			"blame_ylvis": ()=>{
+
 			}
 		}
 		this.dialogue = {}
@@ -139,9 +159,17 @@ class ScriptSystem {
 				triggeredEvent: {
 					"event": "jukebox_checked",
 					"value": true
-				}
+				},
 			},
 			2: {
+				exchange: false,
+				triggeredEvent: {
+					"event": "learn_missing_vinyl",
+					"value": true
+				},
+				next: 3	
+			},
+			3: {
 				exchange: [
 					{character: "Vader", "text": "I've got to find where the song is."}
 				],
@@ -178,7 +206,17 @@ class ScriptSystem {
 		//---------------------------------------------------
 		//Brody
 		this.dialogue["Brody"] = {
-
+			0: {
+				exchange: [
+					{character: "Vader", text: "Hello Brody"},
+					{character: "Brody", text: "Hello Vader"},
+				],
+				nextIf: {
+					event: "finish",
+					value: true,
+					next: 2
+				}
+			}
 		}
 		//---------------------------------------------------
 		//Vader

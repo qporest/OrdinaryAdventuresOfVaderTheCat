@@ -14,6 +14,7 @@ class GameScene extends Scene {
     this.app = app
     // Adding map
     this.dialogueScene = new DialogueScene()
+    this.pickingScene = new PickingScene()
     this.scriptSystem = new ScriptSystem(this)
     this.map = new TiledFloor(app.sprites["floor"], this)
     this.actual_stage = this.stage
@@ -85,6 +86,7 @@ class GameScene extends Scene {
     this.currentSong = null
     this.setMusic("music/01_IntroSong.mp3")
     this.dialogueScene.init(app)
+    this.pickingScene.init(app, this)
     
   }
 
@@ -158,6 +160,9 @@ class GameScene extends Scene {
     }
   }
 
+  getPicks(){
+    this.app.pushScene(this.pickingScene)
+  }
 
   setDialogue({character, text}){
     if(this.characters[character].icon){
@@ -172,5 +177,24 @@ class GameScene extends Scene {
       })
     }
     this.app.pushScene(this.dialogueScene)
+  }
+
+  blameCharacter(characterName){
+    if(characterName=="Jessica"){
+      this.scriptSystem.completeThreshold("blame_jessica")
+      this.vader.moveToChar(this.characters[characterName])
+      this.vader.interactWith(this.characters[characterName])
+    }
+    if(characterName=="Bill"){
+      this.scriptSystem.completeThreshold("blame_bill")
+      this.vader.moveToChar(this.characters[characterName])
+      this.vader.interactWith(this.characters[characterName])
+    }
+    if(characterName=="Ylvis"){
+      this.scriptSystem.completeThreshold("blame_ylvis")
+      this.vader.moveToChar(this.characters[characterName])
+      this.vader.interactWith(this.characters[characterName])
+    }
+
   }
 }
