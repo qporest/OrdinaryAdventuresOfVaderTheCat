@@ -6,16 +6,13 @@ class PIXIGameObject extends GameObject {
 	}
 
 	generateHitArea(){
-		console.log("Rectangle hit area")
 		return new PIXI.Rectangle(0,0,this.sprite.width,this.sprite.height)
 	}
 
 	processEvt(evt){
 		if(evt.type=="touch"){
-			console.log("Checking touch hit box")
 			let localClick = this.sprite.toLocal({x: evt.x, y:evt.y})
 			let isHit = this.sprite.hitArea.contains(localClick.x, localClick.y)
-			console.log(isHit)
 			if(!isHit){ 
 				return false 
 			}
@@ -117,7 +114,6 @@ class TiledFloor extends PIXIGameObject {
 	processTouchEvent(evt, coord){
 		let pos = this.getPosForCoordinates(coord)
 		if(this.map[pos.row][pos.col]!=-1){
-			console.log("Moving player to:["+pos.row+","+pos.col+"]")
 			this.scene.vader.moveTo(pos)
 		}
 	}
@@ -133,6 +129,8 @@ class Character extends PIXIGameObject {
 
 	updatePosition(){
 		this.coordinates = this.adjustCoordinates(this.scene.map.coordinatesForIndex(this.pos))
+		console.log("New coordinates")
+		console.log(this.coordinates)
 		this.sprite.x = this.coordinates.x
 		this.sprite.y = this.coordinates.y
 		this.sprite.zIndex = this.pos.col + this.pos.row
@@ -145,7 +143,6 @@ class Character extends PIXIGameObject {
 	}
 
 	adjustCoordinates(pos){
-		console.log(pos)
 		pos.x -= this.sprite.width/2
 		pos.y += this.scene.map.HEIGHT/2 - this.sprite.height
 		return {x: pos.x, y:pos.y}
@@ -154,9 +151,10 @@ class Character extends PIXIGameObject {
 
 class NPC extends Character {
 	constructor({
-		sprite, scene, pos, interactionPoint, name
+		sprite, scene, pos, interactionPoint, name, icon
 	}){
 		super(sprite, scene, pos)
+		this.icon = icon || null
 		this.interactionPoint = interactionPoint
 		this.name = name
 	}

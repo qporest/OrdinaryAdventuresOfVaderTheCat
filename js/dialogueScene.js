@@ -31,8 +31,7 @@ class DialogueScene extends Scene {
     //set icon
     if(icon){
       this.sprite = icon
-      this.sprite.x = 25
-      this.sprite.width = 50
+      this.sprite.x = 160/2 - this.sprite.width/2
       this.sprite.y = this.HEIGHT/2 - this.sprite.height/2
       this.dialogue.addChild(this.sprite)
     }
@@ -46,7 +45,7 @@ class DialogueScene extends Scene {
       wordWrapWidth: 400
     })
     this.textObject = new PIXI.Text(text, textStyle)
-    this.textObject.x = 175
+    this.textObject.x = 180
     this.textObject.y = this.HEIGHT/2 - this.textObject.height/2
     this.dialogue.addChild(this.textObject)
   }

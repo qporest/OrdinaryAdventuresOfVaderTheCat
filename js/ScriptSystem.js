@@ -17,8 +17,11 @@ class ScriptSystem {
 		console.log(exchange)
 		if("nextIf" in currentDialogue === false){
 			this.currentDialogue[name] = currentDialogue["next"]
-			if("triggeredEvent" in currentDialogue){
-				this.events[currentDialogue["triggeredEvent"]["event"]] = currentDialogue["triggeredEvent"]["value"]
+		}
+		if("triggeredEvent" in currentDialogue){
+			this.events[currentDialogue["triggeredEvent"]["event"]] = currentDialogue["triggeredEvent"]["value"]
+			if(currentDialogue["triggeredEvent"]["event"] in this.eventListeners){
+				this.eventListeners[currentDialogue["triggeredEvent"]["event"]]()
 			}
 		}
 		return JSON.parse(JSON.stringify(exchange))
@@ -30,7 +33,8 @@ class ScriptSystem {
 		}
 	}
 
-	constructor(){
+	constructor(scene){
+		this.scene = scene
 		this.events = {
 			"met_jessica": false,
 			"talked_to_brody": false,
@@ -46,6 +50,12 @@ class ScriptSystem {
 			"Ylvis": 0,
 			"Jukebox": 0
 		}
+
+		this.eventListeners = {
+			"jukebox_checked": ()=>{
+				this.scene.setMusic("music/02_Mystery Song.mp3")
+			}
+		}
 		this.dialogue = {}
 		//-------------------------------------------------
 		//Bill
@@ -57,7 +67,6 @@ class ScriptSystem {
 					{character: "Vader", text: "Slow night?"},
 					{character: "Bill", text: "*crosses arms* might be, but that doesn’t mean I’m letting up on my bouncer duties… you’ve got your ID?"},
 					{character: "Vader", text: "I’ve been coming here for my past 8 lives - don’t pull my tail! Let me get out of this rain!"},
-					{character: "Bill", text: ""},
 					{character: "Vader", text: "*huffs* You still look younger than a kitten, hand it over bud!"},
 					{character: "Narrator", text: "You roll your eyes and hand over your ID to enter the bar."}
 				],
@@ -136,6 +145,84 @@ class ScriptSystem {
 				exchange: [
 					{character: "Vader", "text": "I've got to find where the song is."}
 				],
+				nextIf: {
+					event: "finish",
+					value: true,
+					next: 2
+				}
+			}
+		}
+		//---------------------------------------------------
+		//Rupert
+		this.dialogue["Rupert"] = {
+			0: {
+				exchange: [
+					{character:"Vader", text: "Hey there Rupert! Started early tonight didn’t you?"},
+					{character:"Rupert", text: "I don’t drink and fly! I swear officer! CAHOooo-OwO-oO"},
+					{character:"Vader", text: "I’m not an offic...just drink some water tonight. I don’t want to have to carry you home like last time..."},
+					{character:"Vader", text: "...you tend to shit your pants near cars."},
+					{character:"Rupert", text: "I ALWAYS FIND MY WAY HOME CAHOooo-OwO-oO!!!!!!!"},
+				],
+				next: 1
+			},
+			1: {
+				exchange: [],
+				nextIf: {
+					event: "finish",
+					value: true,
+					next: 2
+				}
+			}
+
+		}
+		//---------------------------------------------------
+		//Brody
+		this.dialogue["Brody"] = {
+
+		}
+		//---------------------------------------------------
+		//Vader
+		this.dialogue["Vader"] = {
+			0: {
+				exchange: [
+					{character: "Vader", text: "No need to tap me, friend."}
+				],
+				nextIf: {
+					event: "finish",
+					value: true,
+					next: 2
+				}
+			}
+		}
+		//---------------------------------------------------
+		//Ylvis
+		this.dialogue["Ylvis"] = {
+			0: {
+				exchange: [
+					{character: "Narrator", text:"He seems lost in his thoughts, maybe you should leave him alone for now."}
+				],
+				nextIf: {
+					event: "jukebox_checked",
+					value: true,
+					next: 1
+				}
+			},
+			1: {
+				exchange: [],
+				nextIf: {
+					event: "finish",
+					value: true,
+					next: 2
+				}
+			}
+		}
+		//---------------------------------------------------
+		//Narrator
+		this.dialogue["Narrator"] = {
+			0: {
+				exchange:[
+					{character:"Narrator", text:"The bar is indeed looking emptier than usual. There is one regular, who already had more than he could handle, and few of the new faces."}
+				], 
 				nextIf: {
 					event: "finish",
 					value: true,

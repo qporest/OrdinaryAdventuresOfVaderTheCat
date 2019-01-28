@@ -14,7 +14,7 @@ class GameScene extends Scene {
     this.app = app
     // Adding map
     this.dialogueScene = new DialogueScene()
-    this.scriptSystem = new ScriptSystem()
+    this.scriptSystem = new ScriptSystem(this)
     this.map = new TiledFloor(app.sprites["floor"], this)
     this.actual_stage = this.stage
     this.stage = new PIXI.Container()
@@ -22,17 +22,47 @@ class GameScene extends Scene {
     this.stage.addChild(this.map.sprite)
     this.gameObjects.push(this.map)
     // Adding player
-    this.vader = new Player(app.sprites["Vader"], this, {row:0, col:0})
+    this.vader = new Player(app.sprites["Vader"], this, {row:0, col:1}, app.sprites["VaderIcon"])
     this.stage.addChild(this.vader.sprite)
     this.gameObjects.push(this.vader)
     // Character creation
     this.characters = {}
     this.characters["Jessica"] = new NPC({
       name: "Jessica",
-      sprite:app.sprites["Jessica"], 
+      sprite:app.sprites["Jessica"],
       scene: this, 
       pos: {row:4, col:3},
       interactionPoint: {row:4, col:4}
+    })
+    this.characters["Bill"] = new NPC({
+      name: "Bill",
+      sprite:app.sprites["Bill"],
+      scene: this,
+      icon: app.sprites["BillIcon"],
+      pos: {row:0, col:2},
+      interactionPoint: {row:1, col:2}
+    })
+    this.characters["Rupert"] = new NPC({
+      name: "Rupert",
+      sprite:app.sprites["Rupert"],
+      scene: this, 
+      pos: {row:5, col:5},
+      interactionPoint: {row:5, col:4}
+    })
+    this.characters["Brody"] = new NPC({
+      name: "Brody",
+      sprite:app.sprites["Brody"],
+      scene: this, 
+      pos: {row:5, col:0},
+      interactionPoint: {row:5, col:2}
+    })
+    this.characters["Brody"].sprite.zIndex = 4
+    this.characters["Ylvis"] = new NPC({
+      name: "Ylvis",
+      sprite:app.sprites["Ylvis"],
+      scene: this, 
+      pos: {row:0, col:0},
+      interactionPoint: {row:0, col:1}
     })
     for(let characterName in this.characters){
       this.stage.addChild(this.characters[characterName].sprite)
@@ -40,22 +70,35 @@ class GameScene extends Scene {
     }
 
     this.characters["Vader"] = this.vader
+    this.characters["Narrator"] = {
+      icon: app.sprites["NarratorIcon"]
+    }
     this.addEnvironment()
     // Defining layers
-    this.layers.push([this.vader, this.characters["Jessica"], this.jukebox])
+    this.layers.push([this.vader, this.characters["Jessica"], this.jukebox,
+      this.characters["Bill"],this.characters["Brody"],this.characters["Rupert"],
+      this.characters["Ylvis"]])
     this.layers.push([this.map])
 
     this.stage.x = app.canvas.width/2 - this.stage.width/2
     this.stage.y = app.canvas.height/2 - this.stage.height/2
-
-
+    this.currentSong = null
+    this.setMusic("music/01_IntroSong.mp3")
     this.dialogueScene.init(app)
     
-    console.log("GameScene")
+  }
+
+  setMusic(song){
+    if(this.currentSong){
+      sounds[this.currentSong].fadeOut(3)
+    }
+    sounds[song].loop = true
+    sounds[song].volume = 0.7
+    this.currentSong = song
+    sounds[song].play()
   }
 
   render() {
-    // console.log("I was rendered")
   }
 
   addEnvironment(){
@@ -117,12 +160,17 @@ class GameScene extends Scene {
 
 
   setDialogue({character, text}){
-    console.log("Setting dialogue for "+character)
-    this.dialogueScene.setDialogue({
-      // icon: this.characters[character].sprite,
-      text: text
-    })
-    console.log("Pushing scene")
+    if(this.characters[character].icon){
+      this.dialogueScene.setDialogue({
+        icon: this.characters[character].icon,
+        text: text
+      })
+    } else {
+      this.dialogueScene.setDialogue({
+        // icon: this.characters[character].sprite,
+        text: text
+      })
+    }
     this.app.pushScene(this.dialogueScene)
   }
 }
