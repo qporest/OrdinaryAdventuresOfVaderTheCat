@@ -164,19 +164,19 @@ class Game {
   }
 
   processClickEvt(evt) {
-    event.preventDefault()
-    console.log({x: event.clientX-this.canvas.offsetLeft,
-      y: event.clientY-this.canvas.offsetTop})
-    this.eventBuffer.push({type:"touch", x: event.clientX-this.canvas.offsetLeft,
-        y: event.clientY-this.canvas.offsetTop})
+    evt.preventDefault()
+    console.log({x: evt.clientX-this.canvas.offsetLeft,
+      y: evt.clientY-this.canvas.offsetTop})
+    this.eventBuffer.push({type:"touch", x: evt.clientX-this.canvas.offsetLeft,
+        y: evt.clientY-this.canvas.offsetTop})
   }
 
   processTouchEvt(evt) {
-    event.preventDefault()
-    console.log({x: event.touches[0].clientX-this.canvas.offsetLeft,
-      y: event.touches[0].clientY-this.canvas.offsetTop})
-    this.eventBuffer.push({type:"touch", x: event.touches[0].clientX-this.canvas.offsetLeft,
-      y: event.touches[0].clientY-this.canvas.offsetTop})
+    evt.preventDefault()
+    console.log({x: evt.touches[0].clientX-this.canvas.offsetLeft,
+      y: evt.touches[0].clientY-this.canvas.offsetTop})
+    this.eventBuffer.push({type:"touch", x: evt.touches[0].clientX-this.canvas.offsetLeft,
+      y: evt.touches[0].clientY-this.canvas.offsetTop})
   }
 
   /* The game loop.

@@ -16,7 +16,12 @@ let game = new VaderGame({
 		"./img/Lighting.png",
 		"./img/icons/Vader.png",
 		"./img/icons/Bill.png",
-		"./img/icons/Narrator.png"
+		"./img/icons/Ylvis.png",
+		"./img/icons/Brody.png",
+		"./img/icons/Jessica.png",
+		"./img/icons/Rupert.png",
+		"./img/icons/Narrator.png",
+		"./img/Record.png"
 	],
 	sprite_mapping: {
 		'./img/Floor.png': 'floor',
@@ -34,7 +39,12 @@ let game = new VaderGame({
 		'./img/Lighting.png': 'Lamps',
 		'./img/icons/Vader.png': 'VaderIcon',
 		'./img/icons/Bill.png': 'BillIcon',
-		'./img/icons/Narrator.png': 'NarratorIcon'
+		'./img/icons/Ylvis.png': 'YlvisIcon',
+		'./img/icons/Brody.png': 'BrodyIcon',
+		'./img/icons/Jessica.png': 'JessicaIcon',
+		'./img/icons/Rupert.png': 'RupertIcon',
+		'./img/icons/Narrator.png': 'NarratorIcon',
+		'./img/Record.png': 'Record',
 	}
 })
 game.run()

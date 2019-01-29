@@ -31,7 +31,8 @@ class GameScene extends Scene {
     this.characters["Jessica"] = new NPC({
       name: "Jessica",
       sprite:app.sprites["Jessica"],
-      scene: this, 
+      scene: this,
+      icon: app.sprites["JessicaIcon"],
       pos: {row:4, col:3},
       interactionPoint: {row:4, col:4}
     })
@@ -48,11 +49,13 @@ class GameScene extends Scene {
       sprite:app.sprites["Rupert"],
       scene: this, 
       pos: {row:5, col:5},
+      icon: app.sprites["RupertIcon"],
       interactionPoint: {row:5, col:4}
     })
     this.characters["Brody"] = new NPC({
       name: "Brody",
       sprite:app.sprites["Brody"],
+      icon: app.sprites["BrodyIcon"],
       scene: this, 
       pos: {row:5, col:0},
       interactionPoint: {row:5, col:2}
@@ -60,6 +63,7 @@ class GameScene extends Scene {
     this.characters["Brody"].sprite.zIndex = 4
     this.characters["Ylvis"] = new NPC({
       name: "Ylvis",
+      icon: app.sprites["YlvisIcon"],
       sprite:app.sprites["Ylvis"],
       scene: this, 
       pos: {row:0, col:0},
@@ -72,6 +76,7 @@ class GameScene extends Scene {
 
     this.characters["Vader"] = this.vader
     this.characters["Narrator"] = {
+      name: "Narrator",
       icon: app.sprites["NarratorIcon"]
     }
     this.addEnvironment()
@@ -87,6 +92,8 @@ class GameScene extends Scene {
     this.setMusic("music/01_IntroSong.mp3")
     this.dialogueScene.init(app)
     this.pickingScene.init(app, this)
+    this.vader.interactWith(this.characters["Narrator"])
+    this.vader.interactWith(this.characters["Bill"])
     
   }
 
@@ -182,18 +189,18 @@ class GameScene extends Scene {
   blameCharacter(characterName){
     if(characterName=="Jessica"){
       this.scriptSystem.completeThreshold("blame_jessica")
-      this.vader.moveToChar(this.characters[characterName])
-      this.vader.interactWith(this.characters[characterName])
+      this.vader.moveToChar(this.characters["Brody"])
+      this.vader.interactWith(this.characters["Brody"])
     }
     if(characterName=="Bill"){
       this.scriptSystem.completeThreshold("blame_bill")
-      this.vader.moveToChar(this.characters[characterName])
-      this.vader.interactWith(this.characters[characterName])
+      this.vader.moveToChar(this.characters["Brody"])
+      this.vader.interactWith(this.characters["Brody"])
     }
     if(characterName=="Ylvis"){
       this.scriptSystem.completeThreshold("blame_ylvis")
-      this.vader.moveToChar(this.characters[characterName])
-      this.vader.interactWith(this.characters[characterName])
+      this.vader.moveToChar(this.characters["Brody"])
+      this.vader.interactWith(this.characters["Brody"])
     }
 
   }

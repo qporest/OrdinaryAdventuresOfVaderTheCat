@@ -158,6 +158,7 @@ class Player extends Character {
 		}
 		console.log("Interact update")
 		let monologue = this.currentActionData.shift()
+		console.log(monologue)
 		this.scene.setDialogue({
 			character: monologue.character,
 			text: monologue.text
