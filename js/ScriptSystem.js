@@ -108,7 +108,7 @@ class ScriptSystem {
 					{character: "Vader", text: "Slow night?"},
 					{character: "Bill", text: "*crosses arms* might be, but that doesn’t mean I’m letting up on my bouncer duties… you’ve got your ID?"},
 					{character: "Vader", text: "I’ve been coming here for my past 8 lives - don’t pull my tail! Let me get out of this rain!"},
-					{character: "Vader", text: "*huffs* You still look younger than a kitten, hand it over bud!"},
+					{character: "Bill", text: "*huffs* You still look younger than a kitten, hand it over bud!"},
 					{character: "Narrator", text: "You roll your eyes and hand over your ID to enter the bar."}
 				],
 				next: 1
@@ -158,7 +158,7 @@ class ScriptSystem {
 					{character: "Vader", "text": "How long have you been here for?"},
 					{character: "Jessica", "text": "Mmm.. I got here shortly after they opened. Work is always SO terrible and I come here to unwind. It’s like my second home.."},
 					{character: "Vader", "text": "Your second home, huh...do you ever treat the bar property as your own?"},
-					{character: "Vader", "text": "A-are you accusing me of stealing the record??? UGH!! You are SO insensitive. LEAVE ME ALONE."}
+					{character: "Jessica", "text": "A-are you accusing me of stealing the record??? UGH!! You are SO insensitive. LEAVE ME ALONE."}
 				],
 				next: 3
 			},
@@ -346,7 +346,7 @@ class ScriptSystem {
 					{character: "Brody", text:"Everyone is always playing that stupid stong! I needed a break! I was going insane!"},
 					{character: "Brody", text:"This stupid jukebox is right next to my bar so it blasts right into my ears!"},
 					{character: "Vader", text:"…"},
-					{character: "Brody", text:"It’s not even a good song!! The lyrics are just OWO over and over again! It’s worse than dupstep!!"},
+					{character: "Brody", text:"It’s not even a good song!! The lyrics are just OWO over and over again! It’s worse than dubstep!!"},
 					{character: "Vader", text:"Why don’t we...just move the jukebox to the other side of the room…"},
 					{character: "Brody", text:"THAT’S JUST ABSOLUTELY INSA- wait, that’s actually a pretty good idea."},
 					{character: "Vader", text:"Yeah.."},
@@ -416,7 +416,8 @@ class ScriptSystem {
 					{character: "Ylvis", text: "Ehh...yeah, I mean once the radios and jukeboxes thing took off, no one really needed a live musician."},
 					{character: "Ylvis", text: "Darn those machines of the devil. Everyone loved my cover of that one song...y’know the one that’s all over town right now."},
 					{character: "Vader", text: "Yeah, I know. But, are you saying you wouldn’t mind seeing those things gone? Maybe even hide the record?"},
-					{character: "Vader", text: "Hey man, Brody tells me you’re a musician"},
+					{character: "Ylvis", text: "Whaa? You’re nuts man. I love that song! I planned on seeing to it for karaoke hour tonight."},
+					{character: "Ylvis", text: "Pft, shame on you man. Get out of my space! You’re ruinin’ my groove."},
 				],
 				nextIf: {
 					event: "finish",
